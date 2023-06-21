@@ -1,13 +1,13 @@
 import {Inter} from 'next/font/google'
-import {useTranslation} from "next-i18next";
+import {Trans, useTranslation} from "next-i18next";
 import {GetServerSideProps} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import i18nextConfig from "@/next-i18next.config";
 import {setTenantDomain} from "@/lib/axios";
 import Link from "next/link";
+import {fetchTenant, getRunningTenantQueries} from "@/store/slices/api/tenantSlice";
 import {storeWrapper} from "@/store";
-import {fetchCourses, getRunningCoursesQueries} from "@/store/slices/api/courseSlice";
-import {fetchTenant, getRunningTenantQueries, useFetchTenantQuery} from "@/store/slices/api/tenantSlice";
+import {fetchCourses, getRunningCoursesQueries, useFetchCoursesQuery} from "@/store/slices/api/courseSlice";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -21,7 +21,8 @@ export const getServerSideProps: GetServerSideProps = storeWrapper.getServerSide
             store.dispatch(fetchCourses.initiate());
 
             await Promise.all([...store.dispatch(getRunningTenantQueries()), ...store.dispatch(getRunningCoursesQueries())]);
-            const trans = (await serverSideTranslations(locale ?? i18nextConfig.i18n.defaultLocale, ["titles"], i18nextConfig))
+
+            const trans = (await serverSideTranslations(locale ?? i18nextConfig.i18n.defaultLocale, ["titles", "gdpr"], i18nextConfig))
 
             return {
                 props: {
@@ -32,15 +33,24 @@ export const getServerSideProps: GetServerSideProps = storeWrapper.getServerSide
 );
 export default function Home() {
     const {t} = useTranslation();
-    const {data: tenant} = useFetchTenantQuery();
+    const {data} = useFetchCoursesQuery();
+
     return (
         <main
             className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
         >
-            {t("titles:awesome")}
+            {data?.data?.map((course: any) => (
+                <div key={course.id}>{course.title}</div>
+            ))}
             <hr/>
-            <Link href="/newp">
-                {tenant?.title}
+            <Link href="/">
+                <Trans i18nKey="titles:blog"
+                components={{
+                    em: <em/>,
+                }}
+                >
+                    test
+                </Trans>
             </Link>
         </main>
     )

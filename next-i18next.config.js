@@ -1,4 +1,4 @@
-const ChainedBackend = require('i18next-chained-backend').default
+const ChainedBackend = require('i18next-chained-backend')
 
 const HttpBackend = require('i18next-http-backend/cjs')
 

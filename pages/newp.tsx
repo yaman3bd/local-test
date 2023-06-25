@@ -32,8 +32,7 @@ export const getServerSideProps: GetServerSideProps = storeWrapper.getServerSide
         }
 );
 export default function Home() {
-    const {t} = useTranslation();
-    const {data} = useFetchCoursesQuery();
+     const {data} = useFetchCoursesQuery();
 
     return (
         <main

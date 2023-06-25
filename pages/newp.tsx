@@ -2,7 +2,7 @@ import {Inter} from 'next/font/google'
 import {Trans, useTranslation} from "next-i18next";
 import {GetServerSideProps} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import i18nextConfig from "@/next-i18next.config";
+import i18nextConfig from "@/next-i18next.config.js";
 import {setTenantDomain} from "@/lib/axios";
 import Link from "next/link";
 import {fetchTenant, getRunningTenantQueries} from "@/store/slices/api/tenantSlice";

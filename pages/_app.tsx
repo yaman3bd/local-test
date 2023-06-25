@@ -1,7 +1,7 @@
 import '@/styles/globals.css'
 import type {AppProps} from 'next/app'
 import {appWithTranslation} from "next-i18next";
-import i18nextConfig from "@/next-i18next.config";
+import i18nextConfig from "@/next-i18next.config.js";
 import {Provider as ReduxProvider} from "react-redux";
 import {storeWrapper} from "@/store";
 

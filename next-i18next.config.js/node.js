@@ -1,11 +1,9 @@
-const ChainedBackend = require('i18next-chained-backend')
+const ChainedBackend = require('i18next-chained-backend/dist/cjs/i18nextChainedBackend.js')
 
 const HttpBackend = require('i18next-http-backend/cjs')
 
-const {instance: axios} = require("./lib/axios");
+const {instance: axios} = require("../lib/axios");
 
-
-const isBrowser = typeof window !== 'undefined'
 const isDev = process.env.NODE_ENV === 'development'
 const backendOptions = {
     loadPath: "{{lng}}|{{ns}}",
@@ -34,21 +32,12 @@ const backend = {
     backendOptions: [backendOptions]
 };
 
-if (isBrowser) {
-    const LocalStorageBackend = require('i18next-localstorage-backend').default
-    backend.backends.unshift(LocalStorageBackend)
-    backend.backendOptions.unshift({
-        expirationTime: 60 * 60 * 1000,
-        prefix: 'i18next_res_'
-    })
-} else {
-    const FSBackend = require('i18next-fs-backend/cjs')
-    backend.backends.unshift(FSBackend)
-    backend.backendOptions.unshift({
-        expirationTime: 60 * 60 * 1000,
-        loadPath: './public/locales_cache/{{lng}}/{{ns}}.json',
-    })
-}
+const FSBackend = require('i18next-fs-backend/cjs')
+backend.backends.unshift(FSBackend)
+backend.backendOptions.unshift({
+    expirationTime: 60 * 60 * 1000,
+    loadPath: './public/locales_cache/{{lng}}/{{ns}}.json',
+})
 
 module.exports = {
     debug: isDev,

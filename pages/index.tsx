@@ -32,15 +32,15 @@ export const getServerSideProps: GetServerSideProps = storeWrapper.getServerSide
 );
 export default function Home() {
     const {t} = useTranslation();
-    const {data: tenant} = useFetchTenantQuery();
+
     return (
         <main
             className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
         >
             {t("titles:awesome")}
-            <hr/>
+
             <Link href="/newp">
-                {tenant?.title}
+                go to {"[\"titles\", \"gdpr\"]"}
             </Link>
         </main>
     )

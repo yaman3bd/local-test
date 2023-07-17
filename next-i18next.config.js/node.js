@@ -13,6 +13,7 @@ module.exports = {
         defaultLocale: "ar"
     },
     use: [ChainedBackend],
+    ns: ["titles", "gdpr"],
     backend: {
         backends: [FSBackend, HttpBackend],
         backendOptions: [
@@ -24,7 +25,7 @@ module.exports = {
                 request: async (options, url, payload, callback) => {
                     try {
                         const [lng, ns] = url.split("|");
-                        console.log(axios.defaults.headers.common)
+
                         await axios.get("/translations", {
                             params: {group: ns},
                         }).then((response) => {

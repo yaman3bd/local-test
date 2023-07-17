@@ -48,5 +48,6 @@ module.exports = {
             }
         ]
     },
+    maxParallelReads: 50,
     serializeConfig: false
 };

@@ -7,7 +7,7 @@ import {setTenantDomain} from "@/lib/axios";
 import Link from "next/link";
 import {storeWrapper} from "@/store";
 import {fetchCourses, getRunningCoursesQueries} from "@/store/slices/api/courseSlice";
-import {fetchTenant, getRunningTenantQueries, useFetchTenantQuery} from "@/store/slices/api/tenantSlice";
+import {fetchTenant, getRunningTenantQueries} from "@/store/slices/api/tenantSlice";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = storeWrapper.getServerSide
             store.dispatch(fetchCourses.initiate());
 
             await Promise.all([...store.dispatch(getRunningTenantQueries()), ...store.dispatch(getRunningCoursesQueries())]);
-            const trans = (await serverSideTranslations(locale ?? i18nextConfig.i18n.defaultLocale, ["titles"], i18nextConfig))
+            const trans = (await serverSideTranslations(locale ?? i18nextConfig.i18n.defaultLocale, ["common", "auth", "otp"], i18nextConfig))
 
             return {
                 props: {
@@ -37,10 +37,10 @@ export default function Home() {
         <main
             className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
         >
-            {t("titles:awesome")}
+            {t("auth:welcome_back")}
 
-            <Link href="/newp">
-                go to {"[\"titles\", \"gdpr\"]"}
+            <Link href="/validation">
+                go to validation page
             </Link>
         </main>
     )

@@ -1,0 +1,23 @@
+{
+  "auth": {
+    "welcome_back": "Welcome back! testedd",
+    "welcome_back_description": "To log in, please enter your email or phone number.",
+    "login_via": "Log in via:"
+  },
+  "otp": {
+    "verify_email": "Verify Email",
+    "verify_email_description": "A text message has been sent to {{email}}. Please check your Spam folder if you don't find the code in your primary email.",
+    "change_email": "Change Email"
+  },
+  "common": {
+    "search_type": "Type",
+    "search": "Search",
+    "courses_title": "Courses",
+    "back_to_home": "Back To Home"
+  },
+  "validation": {
+    "unexpected_error": "An unexpected error occurred. Please try again.",
+    "field_must_be_valid_en_number": "Use numbers in the correct format (1, 2, 3).",
+    "field_required": "This field is required"
+  }
+}

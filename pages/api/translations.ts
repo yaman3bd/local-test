@@ -1,36 +1,33 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type {NextApiRequest, NextApiResponse} from 'next'
-import JSON from '../../public/locales/ar/translatable.json'
-import rateLimit from '../../utils/rate-limit'
+import type { NextApiRequest, NextApiResponse } from "next";
 
-const limiter = rateLimit({
-    interval: 60 * 1000, // 60 seconds
-    uniqueTokenPerInterval: 500, // Max 500 users per second
-})
+import translatable from "../../public/locales/en/translatable.json";
+
+const translations = {
+    en: translatable
+};
+
 type Data = {
-    name: string
-}
+    data: {
+        [key: string]: any;
+    };
+};
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<Data>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+    const lngs = (req.query.lng as string).split("+");
+    const nss = (req.query.ns as string).split("+");
 
-    try {
-        await limiter.check(res, 10, 'CACHE_TOKEN') // 10 requests per minute
-
-        const group = req.query.group
-        res.status(200).json({
-            data: {
-                ar: {
-                    [group]: JSON[group]
-                }
-            }
-        })
-    } catch {
-        res.status(429).json({
-            data: {error: 'Rate limit exceeded'}
-        })
+    const ret = new Map();
+    for (const lng of lngs) {
+        if (!ret.get(lng)) ret.set(lng, {});
+        const lngMap = ret.get(lng);
+        for (const ns of nss) {
+            const lngNs = translations[lng as keyof typeof translations];
+            lngMap[ns as keyof typeof lngNs] = lngNs[ns as keyof typeof lngNs];
+        }
     }
 
+    res.status(200).json({
+        data: Object.fromEntries(ret)
+    });
 }

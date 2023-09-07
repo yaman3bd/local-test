@@ -1,5 +1,5 @@
 import {Inter} from 'next/font/google'
-import {Trans} from "next-i18next";
+import {useTranslation} from "next-i18next";
 import {GetServerSideProps} from "next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import i18nextConfig from "@/next-i18next.config.js";
@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = storeWrapper.getServerSide
 
             await Promise.all([...store.dispatch(getRunningTenantQueries()), ...store.dispatch(getRunningCoursesQueries())]);
 
-            const trans = (await serverSideTranslations(locale ?? i18nextConfig.i18n.defaultLocale, ["titles", "gdpr"], i18nextConfig))
+            const trans = (await serverSideTranslations(locale ?? i18nextConfig.i18n.defaultLocale, ["validation", "common"], i18nextConfig))
 
             return {
                 props: {
@@ -32,20 +32,15 @@ export const getServerSideProps: GetServerSideProps = storeWrapper.getServerSide
         }
 );
 export default function Home() {
-
+    const {t} = useTranslation()
     return (
         <main
             className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
         >
             <Link href="/">
-                <Trans i18nKey="titles:blog"
-                       components={{
-                           em: <em/>,
-                       }}
-                >
-                    quiz
-                </Trans>
+                {t("common:back_to_home")}
             </Link>
+            {t("validation:unexpected_error")}
         </main>
     )
 }

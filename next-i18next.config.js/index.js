@@ -5,6 +5,7 @@ const MultiLoadBackendAdapter = require("i18next-multiload-backend-adapter/cjs")
 
 const backendOptions = require("./backendOptions");
 
+const env = process.env.NODE_ENV;
 module.exports = {
     i18n: {
         locales: ["en"],
@@ -25,5 +26,6 @@ module.exports = {
     preload: ["en"],
     defaultNS: "common",
     maxParallelReads: 50,
-    serializeConfig: false
+    serializeConfig: false,
+    reloadOnPrerender: env === "development"
 };

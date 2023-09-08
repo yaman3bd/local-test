@@ -3,7 +3,7 @@ const axios = require("axios");
 exports.FSBackend = {
     loadPath: "./public/locales_cache/{{lng}}/{{ns}}.json",
     addPath: "./public/locales_cache/{{lng}}/{{ns}}.json",
-    expirationTime: 15 * 1000 // all 30 seconds the cache should be deleted
+    expirationTime: 15 * 1000 // all 15 seconds the cache should be deleted
 };
 
 exports.HttpBackend = {

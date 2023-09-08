@@ -1,7 +1,7 @@
 const ChainedBackend = require("i18next-chained-backend/dist/cjs/i18nextChainedBackend.js");
 const FSBackend = require("i18next-fs-backend/cjs");
 const HttpBackend = require("i18next-http-backend/cjs");
-const MultiloadAdapter = require("i18next-multiload-backend-adapter/cjs");
+const MultiLoadBackendAdapter = require("i18next-multiload-backend-adapter/cjs");
 
 const backendOptions = require("./backendOptions");
 
@@ -10,14 +10,20 @@ module.exports = {
         locales: ["en"],
         defaultLocale: "en"
     },
-    use: [MultiloadAdapter, ChainedBackend],
+    use: [ChainedBackend],
+    backend: {
+        backends: [FSBackend, MultiLoadBackendAdapter],
+        backendOptions: [
+            backendOptions.FSBackend,
+            {
+                backend: HttpBackend,
+                backendOption: backendOptions.HttpBackend
+            }
+        ]
+    },
     ns: ["auth", "otp", "common", "validation"],
     preload: ["en"],
     defaultNS: "common",
-    backend: {
-        backends: [FSBackend, HttpBackend],
-        backendOptions
-    },
     maxParallelReads: 50,
     serializeConfig: false
 };

@@ -1,7 +1,7 @@
 const ChainedBackend = require("i18next-chained-backend/dist/cjs/i18nextChainedBackend.js");
 const HttpBackend = require("i18next-http-backend/cjs");
 const LocalStorageBackend = require("i18next-localstorage-backend").default;
-const MultiloadAdapter = require("i18next-multiload-backend-adapter/cjs");
+const MultiLoadBackendAdapter = require("i18next-multiload-backend-adapter/cjs");
 
 const backendOptions = require("./backendOptions");
 
@@ -10,14 +10,20 @@ module.exports = {
         locales: ["en"],
         defaultLocale: "en"
     },
-    use: [MultiloadAdapter, ChainedBackend],
+    use: [ChainedBackend],
+    backend: {
+        backends: [LocalStorageBackend, MultiLoadBackendAdapter],
+        backendOptions: [
+            {},
+            {
+                backend: HttpBackend,
+                backendOption: backendOptions.HttpBackend
+            }
+        ]
+    },
     ns: ["auth", "otp", "common", "validation"],
     preload: ["en"],
     defaultNS: "common",
-    backend: {
-        backends: [LocalStorageBackend, HttpBackend],
-        backendOptions
-    },
     maxParallelReads: 50,
     serializeConfig: false
 };
